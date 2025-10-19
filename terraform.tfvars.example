@@ -1,0 +1,92 @@
+# Azure AI Landing Zone - Example Configuration
+# Copy this file to terraform.tfvars and customize for your environment
+
+# Basic Configuration
+environment       = "dev"
+location         = "East US 2"
+organization_name = "contoso"
+project_name     = "ai-landing-zone"
+
+# Network Configuration
+# Ensure these address spaces don't overlap with existing networks
+hub_vnet_address_space         = ["10.0.0.0/16"]
+ai_apps_vnet_address_space     = ["10.1.0.0/16"]
+ai_hub_vnet_address_space      = ["10.2.0.0/16"]
+ai_services_vnet_address_space = ["10.3.0.0/16"]
+
+# Security Configuration
+enable_ddos_protection = false # Set to true for production workloads
+allowed_source_ips     = [
+  "0.0.0.0/0"  # CHANGE THIS: Replace with your specific IP ranges
+  # Examples:
+  # "203.0.113.0/24",    # Office network
+  # "198.51.100.0/24",   # VPN network
+]
+
+# AI Services Configuration
+ai_services = {
+  openai = {
+    kind = "OpenAI"
+    sku  = "S0"  # Standard tier
+  }
+  cognitive_services = {
+    kind = "CognitiveServices"
+    sku  = "S0"  # Standard tier
+  }
+}
+
+# Monitoring and Logging Configuration
+log_retention_days = 30  # Increase for production (90-365 days)
+
+# Resource Tagging
+tags = {
+  Environment   = "dev"
+  Project       = "ai-landing-zone"
+  CostCenter    = "IT"
+  Owner         = "Platform Team"
+  CreatedBy     = "Terraform"
+  BusinessUnit  = "AI/ML"
+  Compliance    = "Internal"
+}
+
+# Production Example Configuration (commented out)
+# Uncomment and modify these values for production deployment
+
+# environment = "prod"
+# enable_ddos_protection = true
+# log_retention_days = 90
+#
+# ai_services = {
+#   openai_primary = {
+#     kind = "OpenAI"
+#     sku  = "S0"
+#   }
+#   openai_secondary = {
+#     kind = "OpenAI"
+#     sku  = "S0"
+#   }
+#   cognitive_services = {
+#     kind = "CognitiveServices"
+#     sku  = "S0"
+#   }
+#   computer_vision = {
+#     kind = "ComputerVision"
+#     sku  = "S1"
+#   }
+#   text_analytics = {
+#     kind = "TextAnalytics"
+#     sku  = "S"
+#   }
+# }
+#
+# tags = {
+#   Environment   = "prod"
+#   Project       = "ai-landing-zone"
+#   CostCenter    = "AI-PROD-001"
+#   Owner         = "Platform Team"
+#   CreatedBy     = "Terraform"
+#   BusinessUnit  = "AI/ML"
+#   Compliance    = "SOC2"
+#   DataClass     = "Confidential"
+#   BackupPolicy  = "Daily"
+# }
